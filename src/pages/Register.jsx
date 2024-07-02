@@ -22,9 +22,9 @@ function Register() {
   useEffect(() => {
     if (userData) {
       register(
-        userData.displayName,
         userData.email,
         userData.password,
+        userData.displayName,
         userData.photoURL
       );
     }
@@ -39,7 +39,7 @@ function Register() {
             <h1 className=" text-3xl font-semibold">Register</h1>
             <FormInput type="text" label="displayName" name="displayName" />
             <FormInput type="url" label="photoURL" name="photoURL" />
-            <FormInput type="text" label="email" name="email" />
+            <FormInput type="email" label="email" name="email" />
             <FormInput type="password" label="password" name="password" />
             <div className=" w-full">
               {!isPanding && (

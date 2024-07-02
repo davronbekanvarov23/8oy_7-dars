@@ -27,7 +27,9 @@ export const useRegister = () => {
       const user = useCredential.user;
       setIsPanding(false);
       dispatch(login(user));
-    } catch (error) {console.log(error);}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return { isPanding, register };
 };
