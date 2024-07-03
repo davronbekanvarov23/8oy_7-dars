@@ -33,7 +33,6 @@ const Weather = () => {
       setError("Ob-havo ma'lumotlarini olishda xatolik yuz berdi");
     }
   };
-  console.log(weather);
   return (
     <>
       {!weather && (

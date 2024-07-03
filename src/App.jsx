@@ -4,20 +4,34 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
+import { useEffect } from "react";
 
 //pages
 import { Create, Home, Login, Register } from "./pages";
+
 //layouts
 import MainLayout from "./layout/MainLayout";
-import { useSelector } from "react-redux";
+
+//redux
+import { useSelector, useDispatch } from "react-redux";
+import { login, isAuthChange } from "./app/userSlice";
+
+//components
 import { ProtectedRoutes } from "./components";
 
 //actions
 import { action as LoginAction } from "./pages/Login";
 import { action as RegisterAction } from "./pages/Register";
+import { action as CreateAction } from "./pages/Create";
+
+//firebase
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/fireBaseConfig";
 
 function App() {
-  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { user, isAuthState } = useSelector((state) => state.user);
+
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -34,6 +48,7 @@ function App() {
         {
           path: "/create",
           element: <Create />,
+          action: CreateAction,
         },
       ],
     },
@@ -48,7 +63,14 @@ function App() {
       action: RegisterAction,
     },
   ]);
-  return <RouterProvider router={routes} />;
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      dispatch(login(user));
+      dispatch(isAuthChange());
+    });
+  }, []);
+  return <>{isAuthState && <RouterProvider router={routes} />}</>;
 }
 
 export default App;

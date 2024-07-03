@@ -1,8 +1,17 @@
+//rrd
 import { Form, useActionData } from "react-router-dom";
-import { FormInput } from "../components";
-import { useLogin } from "../hooks/useLogin";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
+
+//components
+import { FormInput } from "../components";
+
+//react
+import { useEffect } from "react";
+
+//custom-hooks
+import { useLogin } from "../hooks/useLogin";
+import { useRegister } from "../hooks/useRegister";
+
 export const action = async ({ request }) => {
   let formData = await request.formData();
   let email = formData.get("email");
@@ -14,6 +23,8 @@ function Login() {
   const userData = useActionData();
 
   const { loginUser, isPanding } = useLogin();
+  const { isPanding: IsPandingUseRegister, registerWithGoogle } = useRegister();
+
   useEffect(() => {
     if (userData) {
       loginUser(userData.email, userData.password);
@@ -40,15 +51,30 @@ function Login() {
             </div>
           </Form>
           <div className=" w-full mt-5">
-            <button className="btn btn-secondary btn-block">Google</button>
+            {!IsPandingUseRegister && (
+              <button
+                onClick={registerWithGoogle}
+                className="btn btn-secondary btn-block"
+              >
+                Google
+              </button>
+            )}
+            {IsPandingUseRegister && (
+              <button
+                disabled
+                onClick={registerWithGoogle}
+                className="btn btn-secondary btn-block"
+              >
+                Loading...
+              </button>
+            )}
           </div>
-          <span className="flex gap-2">
-            {" "}
-            <p>Don't you have your account yet?</p>
-            <Link to="/register" className=" link-primary">
+          <div className="text-center mt-5">
+            If you don't have account,
+            <Link to="/register" className="link link-primary">
               Register
             </Link>
-          </span>
+          </div>
         </div>
       </div>
     </div>

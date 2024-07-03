@@ -18,7 +18,7 @@ export const action = async ({ request }) => {
 
 function Register() {
   const userData = useActionData();
-  const { register, isPanding } = useRegister();
+  const { register, isPanding, registerWithGoogle } = useRegister();
   useEffect(() => {
     if (userData) {
       register(
@@ -54,14 +54,30 @@ function Register() {
           </Form>
 
           <div className=" w-full mt-5">
-            <button className="btn btn-secondary btn-block">Google</button>
+            {isPanding && (
+              <button
+                disabled
+                onClick={registerWithGoogle}
+                className="btn btn-secondary btn-block"
+              >
+                Loading...
+              </button>
+            )}
+            {!isPanding && (
+              <button
+                onClick={registerWithGoogle}
+                className="btn btn-secondary btn-block"
+              >
+                Google
+              </button>
+            )}
           </div>
-          <span className="flex gap-2">
-            <p>Do you have already your account ?</p>
-            <Link to="/login" className=" link-primary">
+          <div className="text-center mt-5">
+            If you have an account,
+            <Link to="/login" className="link link-primary">
               Login
             </Link>
-          </span>
+          </div>
         </div>
       </div>
     </div>

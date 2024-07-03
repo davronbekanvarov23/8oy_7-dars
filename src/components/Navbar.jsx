@@ -1,14 +1,32 @@
+//firebase
+import { auth } from "../firebase/fireBaseConfig";
+import { signOut } from "firebase/auth";
+import toast from "react-hot-toast";
+
+//redux
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../app/userSlice";
+
+//rrd
 import { Link } from "react-router-dom";
+
+//components
 import { FaBarsStaggered } from "react-icons/fa6";
-import Mode from "./Mode";
-import Weather from "./Weather";
+import { Mode, Weather } from "../components";
 
 function Navbar() {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  const logoutProfile = async () => {
+    try {
+      await signOut(auth);
+      toast.success(`See you soon`);
+      dispatch(logout());
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
     <header className=" bg-base-200">
       <nav className=" align-element navbar">
@@ -34,7 +52,7 @@ function Navbar() {
                 <Mode />
               </li>{" "}
               <li>
-                <button onClick={() => dispatch(logout(user))}>Logout</button>
+                <button onClick={logoutProfile}>Logout</button>
               </li>
             </ul>
           </div>
@@ -57,7 +75,7 @@ function Navbar() {
             </div>
           </div>
           <button
-            onClick={() => dispatch(logout(user))}
+            onClick={logoutProfile}
             className="hidden lg:btn ml-5 lg:btn-primary  "
           >
             Logout

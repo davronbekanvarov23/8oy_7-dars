@@ -33,9 +33,9 @@ function Mode() {
       <label onClick={handleMode} className="swap swap-rotate">
         <input type="checkbox" />
         {/* sun icon */}
-        <FaSun className="swap-on fill-current w-4 h-4 text-slate-300" />
+        <FaSun className="swap-on fill-current w-4 h-4 " />
         {/* moon icon */}
-        <FaMoon className="swap-off  fill-current w-4 h-4 text-gray-900" />
+        <FaMoon className="swap-off  fill-current w-4 h-4 " />
       </label>
     </>
   );

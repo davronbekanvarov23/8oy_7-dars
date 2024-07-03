@@ -1,32 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const datafromlocalStorage = () => {
-  return (
-    JSON.parse(localStorage.getItem("user")) || {
-      user: null,
-      isAuthState: false,
-    }
-  );
-};
-const saveToLocalStorege = (state) => {
-  localStorage.setItem("user", JSON.stringify(state));
+const initialState = {
+  user: null,
+  isAuthState: false,
 };
 
 const userSlice = createSlice({
   name: "user",
-  initialState: datafromlocalStorage(),
+  initialState,
   reducers: {
     login: (state, { payload }) => {
       state.user = payload;
-      saveToLocalStorege(state);
     },
     logout: (state) => {
       state.user = null;
-      saveToLocalStorege(state);
     },
     isAuthChange: (state) => {
       state.isAuthState = true;
-      saveToLocalStorege(state);
     },
   },
 });
